@@ -21,10 +21,10 @@ Simple News App is an iOS application that fetches and displays news articles fr
 
 # API Endpoints
 
-News List: https://api.spaceflightnewsapi.net/v4/articles/
-Search: https://api.spaceflightnewsapi.net/v4/articles/?title_contains=cricket
-Article Details: https://api.spaceflightnewsapi.net/v4/articles/{id}
-API Docs: https://api.spaceflightnewsapi.net/v4/docs/
+- News List: https://api.spaceflightnewsapi.net/v4/articles/
+- Search: https://api.spaceflightnewsapi.net/v4/articles/?title_contains=cricket
+- Article Details: https://api.spaceflightnewsapi.net/v4/articles/{id}
+- API Docs: https://api.spaceflightnewsapi.net/v4/docs/
 
 # Tech Stack
 
