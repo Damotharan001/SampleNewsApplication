@@ -130,7 +130,7 @@ extension ListOfNewsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let sID = String(describing: NewsDetailsViewController.self)
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: sID) as? NewsDetailsViewController
-        vc?.currentID = self.newsListVM.getResults()?[indexPath.row].id ?? 0
+        vc?.detailsVM.currentID = self.newsListVM.getResults()?[indexPath.row].id ?? 0
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

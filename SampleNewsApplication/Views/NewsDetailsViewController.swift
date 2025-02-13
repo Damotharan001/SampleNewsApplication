@@ -15,13 +15,12 @@ class NewsDetailsViewController: BaseViewController {
     @IBOutlet weak var newTitleLbl: UILabel!
     @IBOutlet weak var categoryLbl: UILabel!
     
-    var currentID: Int?
+    var detailsVM = DetailsViewModels()
     
-    var results: Results? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-        self.getNewsDetails(id: self.currentID ?? 0)
+        self.getNewsDetails(id: self.detailsVM.currentID ?? 0)
         self.addSwipeGestures()
     }
     
@@ -36,43 +35,52 @@ class NewsDetailsViewController: BaseViewController {
     }
     
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
+        self.startLoading()
         if gesture.direction == .right {
-            self.getNewsDetails(id: (self.currentID ?? 0) + 1)
+            self.detailsVM.nextPage { result in
+                self.fetch(result: result)
+            }
             
         } else if gesture.direction == .left {
-            self.getNewsDetails(id: (self.currentID ?? 0) - 1)
-           
+            self.detailsVM.previousPage { result in
+                self.fetch(result: result)
+            }
+        }
+    }
+    
+    func fetch(result: Result<Bool, Error>) {
+        DispatchQueue.main.async {
+            switch result {
+            case .success:
+                self.UIUpdates()
+            case .failure:
+                self.showAlert(message: "No News Found") {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            self.stopLoading()
         }
     }
     
     func getNewsDetails(id: Int){
         self.startLoading()
-        DetailsViewModels().fetchNewsDetails(id: (id)) { (result: Result<Results, Error>) in
-            switch result {
-            case .success(let articles):
-                self.results = articles
-                self.currentID = id
-                self.UIUpdates()
-                self.stopLoading()
-            case .failure(let error):
-                print("Error fetching articles: \(error.localizedDescription)")
-                self.stopLoading()
-            }
+        self.detailsVM.fetchNewsDetails(id: (id)) { result in
+            self.fetch(result: result)
         }
     }
     func UIUpdates() {
         DispatchQueue.main.async {
-            if let imageURL = URL(string: self.results?.image_url ?? "") {
+            if let imageURL = URL(string: self.detailsVM.results?.image_url ?? "") {
                 self.newsImage.load(url: imageURL)
             }
-            self.statusLbl.text = DateFormatChanges().dateFormatChange(value: self.results?.updated_at ?? "")
-            self.newTitleLbl.text = self.results?.title ?? ""
-            self.summaryLbl.text = self.results?.summary ?? ""
-            self.categoryLbl.text = self.results?.news_site ?? ""
+            self.statusLbl.text = DateFormatChanges().dateFormatChange(value: self.detailsVM.results?.updated_at ?? "")
+            self.newTitleLbl.text = self.detailsVM.results?.title ?? ""
+            self.summaryLbl.text = self.detailsVM.results?.summary ?? ""
+            self.categoryLbl.text = self.detailsVM.results?.news_site ?? ""
         }
     }
     @IBAction func moreOptionAction(_ sender: Any) {
-        if let siteURL = URL(string: self.results?.url ?? "") {
+        if let siteURL = URL(string: self.detailsVM.results?.url ?? "") {
             UIApplication.shared.open(siteURL)
         }
        

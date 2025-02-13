@@ -43,7 +43,7 @@ class BaseViewController: UIViewController {
     }
     
     func showAlert(message: String, action: @escaping ()->()) {
-        let alertVc = UIAlertController(title: "News", message: message, preferredStyle: .alert)
+        let alertVc = UIAlertController(title: "Sample News Application", message: message, preferredStyle: .alert)
         alertVc.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
             action()
         }))
