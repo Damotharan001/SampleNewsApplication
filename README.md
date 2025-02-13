@@ -2,14 +2,14 @@
 
 # Overview
 
-Simple News App is an iOS application that fetches and displays news articles from the Spaceflight News API. The app is designed for both iPhone and iPad, providing a smooth and user-friendly experience.
+Simple News App is an iOS application that fetches and displays news articles from the Spaceflight News API. The app is designed for both iPhone, providing a smooth and user-friendly experience.
 
 # Features
 
 # News Feed Screen
 
 - Displays a list of news articles
-- Supports search by title or summary
+- Supports search by title
 - Implements pagination for loading more articles
 - Pull-to-refresh for updating the news feed
 
@@ -32,14 +32,7 @@ API Docs: https://api.spaceflightnewsapi.net/v4/docs/
 - Framework: UIKit
 - Architecture: MVVM
 - Networking: URLSession
-- Installation
 
 # Clone the repository:
 
 git clone https://github.com/Damotharan001/SampleNewsApplication.git
-cd simple-news-app
-
-# Open the project in Xcode 15
-
-Install dependencies (if using CocoaPods or Swift Package Manager)
-Run the app on a simulator or a real device
